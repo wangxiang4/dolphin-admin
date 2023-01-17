@@ -1,0 +1,52 @@
+# PROJECT: dolphin-admin
+# DESCRIPTION: 配置yarn install后清除并从软件包依赖关系中删除不必要的文件
+# VERSION: 1.0.0
+# Author: wangxiang4
+
+# test directories
+test
+tests
+powered-test
+
+# asset directories
+docs
+doc
+website
+images
+assets
+
+# examples
+example
+examples
+
+# code coverage directories
+coverage
+.nyc_output
+
+# build scripts
+Makefile
+Gulpfile.js
+Gruntfile.js
+
+# configs
+appveyor.yml
+circle.yml
+codeship-services.yml
+codeship-steps.yml
+wercker.yml
+.tern-project
+.gitattributes
+.editorconfig
+.*ignore
+.eslintrc
+.jshintrc
+.flowconfig
+.documentup.json
+.yarn-metadata.json
+.travis.yml
+
+# misc
+*.md
+
+!istanbul-reports/lib/html/assets
+!istanbul-api/node_modules/istanbul-reports/lib/html/assets

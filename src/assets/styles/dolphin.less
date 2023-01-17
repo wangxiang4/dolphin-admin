@@ -1,0 +1,268 @@
+/**
+ * @program: dolphin-admin
+ * @description: 系统相关样式
+ * 系统中全局调用的样式全部在这里配置
+ * @author: entfrm开发团队-王翔
+ * @create: 2022/4/7
+ */
+
+.table-settings {
+  & > * {
+    margin-right: 12px;
+  }
+
+  svg {
+    width: 1.3em;
+    height: 1.3em;
+  }
+}
+
+
+// 基础表格样式
+[data-theme='dark'] {
+  .ant-table-tbody > tr:hover.ant-table-row-selected > td,
+  .ant-table-tbody > tr.ant-table-row-selected td {
+    background-color: #262626;
+  }
+
+  .@{basic-table-prefix-cls} {
+    // [黑暗模式]table顶部插槽多选栏样式
+    .alert {
+      background-color: #323232;
+      border-color: #424242;
+    }
+  }
+}
+
+.@{basic-table-prefix-cls} {
+  max-width: 100%;
+
+  &-row__striped {
+    td {
+      background-color: @app-content-background;
+    }
+  }
+
+  &-form-container {
+    padding: 16px;
+
+    .ant-form {
+      padding: 12px 10px 6px 10px;
+      margin-bottom: 16px;
+      background-color: @component-background;
+      border-radius: 2px;
+    }
+  }
+
+  .ant-tag {
+    margin-right: 0;
+  }
+
+  .ant-table-wrapper {
+    padding: 6px;
+    background-color: @component-background;
+    border-radius: 2px;
+
+    .ant-table-title {
+      min-height: 40px;
+      padding: 0 0 8px 0 !important;
+    }
+
+    .ant-table.ant-table-bordered .ant-table-title {
+      border: none !important;
+    }
+  }
+
+  .ant-table {
+    width: 100%;
+    overflow-x: hidden;
+
+    &-title {
+      display: flex;
+      padding: 8px 6px;
+      border-bottom: none;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .ant-table-tbody > tr.ant-table-row-selected td {
+      background-color: fade(@primary-color, 8%) !important;
+    }
+  }
+
+  .ant-pagination {
+    margin: 10px 0 0 0;
+  }
+
+  .ant-table-footer {
+    padding: 0;
+
+    .ant-table-wrapper {
+      padding: 0;
+    }
+
+    table {
+      border: none !important;
+    }
+
+    .ant-table-body {
+      overflow-x: hidden !important;
+      overflow-y: scroll !important;
+    }
+
+    td {
+      padding: 12px 8px;
+    }
+
+    // [明亮模式]table顶部插槽多选栏样式
+    .alert {
+      height: 38px;
+      background-color: #f3f3f3;
+      border-color: #e3e3e3;
+    }
+
+    &--inset {
+      .ant-table-wrapper {
+        padding: 0;
+      }
+    }
+  }
+
+  // 表格头部样式
+  .@{basic-table-header-prefix-cls} {
+    &__toolbar {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+
+      > * {
+        margin-right: 8px;
+      }
+    }
+  }
+
+  // 表格动作样式
+  .@{basic-table-action-prefix-cls} {
+    display: flex;
+    align-items: center;
+
+    .action-divider {
+      display: table;
+    }
+
+    &.left {
+      justify-content: flex-start;
+    }
+
+    &.center {
+      justify-content: center;
+    }
+
+    &.right {
+      justify-content: flex-end;
+    }
+
+    button {
+      display: flex;
+      align-items: center;
+
+      span {
+        margin-left: 0 !important;
+      }
+    }
+
+    button.ant-btn-circle {
+      span {
+        margin: auto !important;
+      }
+    }
+
+    .ant-divider,
+    .ant-divider-vertical {
+      margin: 0 2px;
+    }
+
+    .icon-more {
+      transform: rotate(90deg);
+
+      svg {
+        font-size: 1.1em;
+        font-weight: 700;
+      }
+    }
+  }
+
+  // 表格设置样式
+  .table-coulmn-drag-icon {
+    margin: 0 5px;
+    cursor: move;
+  }
+  .@{basic-column-setting-prefix-cls} {
+    &__popover-title {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    &__check-item {
+      display: flex;
+      align-items: center;
+      min-width: 100%;
+      padding: 4px 16px 8px 0;
+
+      .ant-checkbox-wrapper {
+        width: 100%;
+
+        &:hover {
+          color: @primary-color;
+        }
+      }
+    }
+
+    &__fixed-left,
+    &__fixed-right {
+      color: rgba(0, 0, 0, 0.45);
+      cursor: pointer;
+
+      &.active,
+      &:hover {
+        color: @primary-color;
+      }
+
+      &.disabled {
+        color: @disabled-color;
+        cursor: not-allowed;
+      }
+    }
+
+    &__fixed-right {
+      transform: rotate(180deg);
+    }
+
+    &__cloumn-list {
+      svg {
+        width: 1em !important;
+        height: 1em !important;
+      }
+
+      .ant-popover-inner-content {
+        // max-height: 360px;
+        padding-right: 0;
+        padding-left: 0;
+        // overflow: auto;
+      }
+
+      .ant-checkbox-group {
+        width: 100%;
+        min-width: 260px;
+        // flex-wrap: wrap;
+      }
+
+      .scrollbar {
+        height: 220px;
+      }
+    }
+  }
+}

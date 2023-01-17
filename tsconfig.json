@@ -1,0 +1,50 @@
+/**
+ * @program: dolphin-admin
+ * @description: vite的typescript编译配置
+ * vite内部使用esbuild对typescript编译成js
+ * vite天然对typescript的支持文档: https://vitejs.bootcss.com/guide/features.html#typescript
+ * 配置官方文档: https://www.typescriptlang.org/docs/handbook/compiler-options.html
+ * @author: entfrm开发团队-王翔
+ * @create: 2022/4/6
+ */
+{
+  "compilerOptions": {
+    "target": "esnext",
+    "module": "esnext",
+    "moduleResolution": "node",
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "allowSyntheticDefaultImports": true,
+    "strictFunctionTypes": false,
+    "jsx": "preserve",
+    "baseUrl": ".",
+    "allowJs": true,
+    "sourceMap": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "experimentalDecorators": true,
+    "lib": ["dom", "esnext"],
+    "noImplicitThis" : false,
+    "noImplicitAny": false,
+    "skipLibCheck": true,
+    "types": ["vite/client", "@amap/amap-jsapi-loader/src/global"],
+    "typeRoots": ["./node_modules/@types/", "./types"],
+    "removeComments": true,
+    "paths": {
+      "/@/*": ["src/*"],
+      "/#/*": ["types/*"]
+    }
+  },
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.d.ts",
+    "src/**/*.tsx",
+    "src/**/*.vue",
+    "types/**/*.d.ts",
+    "types/**/*.ts",
+    "build/**/*.ts",
+    "build/**/*.d.ts",
+    "vite.config.ts",
+  ],
+  "exclude": ["node_modules", "dist", "**/*.js"]
+}

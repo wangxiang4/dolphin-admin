@@ -21,7 +21,6 @@ enum Api {
   changeTenant='/system_proxy/system/user/changeTenant',
   resetTenant='/system_proxy/system/user/resetTenant',
   synchronousAuthenticationUser = '/system_proxy/system/user/synchronousAuthenticationUser',
-  getCourierUserList= '/system_proxy/system/user/getCourierUserList'
 }
 
 /** 查询用户列表 */
@@ -56,6 +55,3 @@ export const resetTenant = () => defHttp.get({ url: Api.resetTenant });
 
 /** 同步身份验证用户 */
 export const synchronousAuthenticationUser = () => defHttp.get<DolphinUser>({ url: Api.synchronousAuthenticationUser });
-
-/** 获取全部快递员集合 */
-export const getCourierUserList = () => defHttp.get<User[]>({ url: Api.getCourierUserList });

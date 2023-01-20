@@ -100,10 +100,10 @@ async function bootstrap() {
 
   app.mount('#app', true);
 
-  // 高德地图安全配置
+  // 高德地图安全配置,推荐使用代理服务器: https://lbs.amap.com/api/jsapi-v2/guide/abc/prepare
   // @ts-ignore
   window._AMapSecurityConfig = {
-    securityJsCode: 'ea9d5e2fb6383665de6c3c7b4e53c289'
+    securityJsCode: 'f492b056e327784b1ad953eb7467f1aa'
   };
 
   // 按需加载的方式默认是不带国际化的，自定义国际化需要自行解析占位符 '{0}'，例如：

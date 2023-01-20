@@ -5,8 +5,6 @@
              :default-zoom="mapState.defaultZoom"
              :toolbar="toolbar"
              @save="handleMapSave"
-             @addTask="handleOpenMapTask"
-             @point="handleOpenMapPoint"
              @zoomIn="handleMapZoomIn"
              @zoomOut="handleMapZoomOut"
              @reset="mapReset"
@@ -54,10 +52,14 @@
   import { Form } from 'ant-design-vue';
   import { propTypes } from '/@/utils/propTypes';
   import { useUserStore } from '/@/store/modules/user';
-  import { split, divide, subtract, merge, isEmpty, cloneDeep, add, concat } from 'lodash-es';
+  import { split, divide, subtract } from 'lodash-es';
   import componentSetting from '/@/settings/componentSetting';
   import Toolbar from '../components/Toolbar.vue';
-  import { useI18n } from '/@/hooks/web/useI18n';
+  import { carPointData, gasStationPointData } from "/@/components/AMap/src/amap.data";
+  import car from '/@/assets/images/car.svg';
+  import gasStation from '/@/assets/images/gasStation.svg';
+  import { useMessage } from '/@/hooks/web/useMessage';
+  const { notification } = useMessage();
 
   /** 类型规范统一声明定义区域 */
   interface MapState {
@@ -77,7 +79,7 @@
     siderWidth: propTypes.number.def(371),
     toolbar: {
       type: Array as PropType<string[]>,
-      default: () => ['save', 'addTask', 'point', 'zoomIn', 'zoomOut', 'reset']
+      default: () => ['save', 'zoomIn', 'zoomOut', 'reset']
     },
     toolbarHeight: propTypes.number.def(48),
     toolbarControl: propTypes.bool.def(true),
@@ -86,17 +88,12 @@
       default: () => ['toolBar', 'controlBar', 'scale', 'mapType']
     },
     navigatePanel: propTypes.bool.def(true),
-    isEdit: propTypes.bool.def(false),
   });
 
   let map;
-  let orgMarkerCluster;
-  let hospitalMarkerCluster;
-  let courierUserMarkerCluster;
-  let scanCourierUserCircleRange;
+  let gasStationMarkerCluster;
+  let carMarkerCluster;
   let driving;
-  let eventSource;
-  const { t } = useI18n();
   const emit = defineEmits(['success']);
   const userStore = useUserStore();
   const instance = getCurrentInstance();
@@ -119,7 +116,8 @@
     toggleStatus: true,
     /** 地图配置数据 */
     mapConfig: {
-      amapKey: 'f278d021a80dcf81f071aee5bff08804',
+      // 推荐使用转发: https://lbs.amap.com/api/jsapi-v2/guide/abc/prepare
+      amapKey: 'f59abc154a58fa38dd34d520ac20881a',
       options: {
         pitch:60,
         viewMode:'3D',
@@ -146,7 +144,7 @@
     }).then(async AMap => {
       // 创建地图实例
       map = new AMap.Map(instance.refs.mapview, mapState.mapConfig.options);
-      map.plugin(['AMap.ToolBar', 'AMap.MapType', 'AMap.ControlBar', 'AMap.Scale'], () => {
+      map.plugin(['AMap.ToolBar', 'AMap.MapType', 'AMap.ControlBar', 'AMap.Scale'], () =>   {
         if (mapProps.mapControl?.includes('toolBar')) {
           // 地图操作工具条插件
           map.addControl(new AMap.ToolBar());
@@ -175,10 +173,104 @@
         mapState.defaultZoom = subtract(divide(map.getZoom(),2), 1);
       });
 
+      // 出租车集群标记点
+      carMarkerCluster = new AMap.MarkerCluster(map, [], {
+        gridSize: 80,
+        maxZoom: 14,
+        renderMarker(ctx) {
+          const { marker, data } = ctx;
+          if (Array.isArray(data) && data[0]) {
+            const { label, mapOrientation } = data[0];
+            let content = `<img width="30px" height="30px" style="transform: scale(1) rotate(${360 - Number(mapOrientation)}deg);" src='${car}'/>`;
+            marker.setLabel({
+              direction: 'bottom',
+              // 设置文本标注偏移量
+              offset: new AMap.Pixel(-4, 0),
+              // 设置文本标注内容
+              content: `<div>${label}</div>`
+            });
+            marker.setOffset(new AMap.Pixel(-18, -10));
+            marker.setContent(content);
+          }
+        },
+        renderClusterMarker(ctx) {
+          const { clusterData, marker, count } = ctx;
+          let content = `<img width="30px" height="30px" src='${car}'/>`;
+          marker.setContent(content);
+          const label = count == 1 ? clusterData[0].label : `出租车数量:${count}`;
+          marker.setLabel({
+            direction: 'bottom',
+            // 设置文本标注偏移量
+            offset: new AMap.Pixel(-4, 0),
+            // 设置文本标注内容
+            content: `<div>${label}</div>`
+          });
+          marker.setOffset(new AMap.Pixel(-18, -10));
+        }
+      });
+      carMarkerCluster.on('click', ctx => {
+        const { lnglat } = ctx;
+        map.setZoomAndCenter(18, lnglat);
+      });
+
+      // 加油站集群标记点
+      gasStationMarkerCluster = new AMap.MarkerCluster(map, [], {
+        gridSize: 80,
+        maxZoom: 14,
+        renderMarker(ctx) {
+          const { marker, data } = ctx;
+          if (Array.isArray(data) && data[0]) {
+            const { label, mapOrientation } = data[0];
+            let content = `<img width="30px" height="30px" style="transform: scale(1) rotate(${360 - Number(mapOrientation)}deg);" src='${gasStation}'/>`;
+            marker.setLabel({
+              direction: 'bottom',
+              // 设置文本标注偏移量
+              offset: new AMap.Pixel(-4, 0),
+              // 设置文本标注内容
+              content: `<div>${label}</div>`
+            });
+            marker.setOffset(new AMap.Pixel(-18, -10));
+            marker.setContent(content);
+          }
+        },
+        renderClusterMarker(ctx) {
+          const { clusterData, marker, count } = ctx;
+          let content = `<img width="30px" height="30px" src='${gasStation}'/>`;
+          marker.setContent(content);
+          const label = count == 1 ? clusterData[0].label : `出租车数量:${count}`;
+          marker.setLabel({
+            direction: 'bottom',
+            // 设置文本标注偏移量
+            offset: new AMap.Pixel(-4, 0),
+            // 设置文本标注内容
+            content: `<div>${label}</div>`
+          });
+          marker.setOffset(new AMap.Pixel(-18, -10));
+        }
+      });
+      carMarkerCluster.on('click', ctx => {
+        const { lnglat } = ctx;
+        map.setZoomAndCenter(18, lnglat);
+      });
+
+      const carPoints = carPointData.map(data => ({ lnglat: [data.mapLng, data.mapLat], ...data }));
+      carMarkerCluster?.setData(carPoints);
+      const gasStationPoints = gasStationPointData.map(data => ({ lnglat: [data.mapLng, data.mapLat], ...data }));
+      gasStationMarkerCluster?.setData(gasStationPoints);
+
       // 构造路线导航类
       driving = new AMap.Driving({
         map: map,
         panel: instance.refs.mapPanel
+      });
+
+      driving.search(new AMap.LngLat(carPointData[0].mapLng, carPointData[0].mapLat), new AMap.LngLat(gasStationPointData[0].mapLng, gasStationPointData[0].mapLat), {
+        waypoints: []
+      }, function(status, result) {
+        notification.success({
+          message: status === 'complete' ? '绘制地图路线完成!' : `获取地图数据失败：${result}`,
+          duration: 2
+        });
       });
 
       // 加载完毕
@@ -192,8 +284,6 @@
   onUnmounted(() => {
     // 销毁地图实例
     map?.destroy() && map.clearEvents();
-    // 关闭SSE
-    eventSource?.close();
   });
 
   /** 地图创建完成(动画关闭) */
@@ -235,7 +325,6 @@
   function handleMapZoomOut() {
     map.zoomOut();
   }
-
 
   /** 处理地图保存并发布 */
   async function handleMapSave() {

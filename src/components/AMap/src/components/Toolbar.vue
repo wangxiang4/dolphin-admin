@@ -9,24 +9,6 @@
         <Icon icon="fa6-regular:floppy-disk" size="13"/>保存
       </a-button>
     </ATooltip>
-    <ATooltip v-if="toolbar.includes('addTask')"
-              title="新增任务"
-              placement="bottom"
-              :arrowPointAtCenter="true"
-    >
-      <a-button type="primary" @click="emit('addTask')">
-        <Icon icon="fa6-regular:window-restore" size="13"/>任务
-      </a-button>
-    </ATooltip>
-    <ATooltip v-if="toolbar.includes('point')"
-              title="调整标记点"
-              placement="bottom"
-              :arrowPointAtCenter="true"
-    >
-      <a-button type="primary" @click="emit('point')">
-        <Icon icon="fa6-solid:location-dot" size="13"/>标记点
-      </a-button>
-    </ATooltip>
     <ATooltip v-if="toolbar.includes('zoomIn')"
               title="放大"
               placement="bottom"
@@ -71,10 +53,10 @@
     defaultZoom: propTypes.number.def(1),
     toolbar: {
       type: Array as PropType<string[]>,
-      default: () => ['save', 'addTask', 'point', 'zoomIn', 'zoomOut', 'reset']
+      default: () => ['save', 'zoomIn', 'zoomOut', 'reset']
     },
   });
-  const emit = defineEmits(['save', 'addTask', 'point', 'zoomIn', 'zoomOut', 'reset']);
+  const emit = defineEmits(['save', 'zoomIn', 'zoomOut', 'reset']);
   const ATooltip = Tooltip;
 
 </script>

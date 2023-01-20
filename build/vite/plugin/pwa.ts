@@ -2,8 +2,8 @@
  * @program: dolphin-admin
  * @description: vite-plugin-pwa配置
  * 提供零配置就可以实现(pwa)渐进式web应用程序
- * 什么是渐进式(就是兼容新旧浏览器,如果旧浏览器的技术太落后不支持某个模块,可以选择的把这个功能去掉在旧浏览器中不显示,在最新的浏览器中显示)
- * 了解更多信息: https://juejin.cn/post/6844903461645991943
+ * 什么是渐进式(是一种普通网页或网站架构起来的网络应用程序，但它可以以传统应用程序或原生移动应用程序形式展示给用户，就是给用户接近原生app的形式进行访问)
+ * 了解更多信息: https://zh.m.wikipedia.org/zh-sg/%E6%B8%90%E8%BF%9B%E5%BC%8F%E7%BD%91%E7%BB%9C%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F
  * 目前主要用来开启service-worker让他来做缓存的: https://developer.mozilla.org/zh-CN/docs/Web/API/Service_Worker_API/Using_Service_Workers
  * 文档: https://github.com/antfu/vite-plugin-pwa
  * @author: entfrm开发团队-王翔

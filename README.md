@@ -8,17 +8,14 @@
 
 <p align="center">
     <a href="https://godolphinx.org/"><b>Website</b></a> •
-    <a href="https://godolphinx.org/microservice/description.html"><b>Documentation</b></a>
+    <a href="https://godolphinx.org/vue3/description.html"><b>Documentation</b></a>
 </p>
 
 <div align="center">
-  <a href="https://github.com/wangxiang4/dolphin-ecology-docs/actions">
-    <img src="https://github.com/wangxiang4/dolphin-ecology-docs/workflows/Deploy%20Docs/badge.svg">
-  </a>
   <a href="https://godolphinx.org">
     <img src="https://img.shields.io/npm/l/vue.svg?sanitize=true">
   </a>
-  <a href="https://gitpod.io/#https://github.com/wangxiang4/dolphin-ecology-docs">
+  <a href="https://gitpod.io/#https://github.com/wangxiang4/dolphin-admin">
     <img src="https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod&style=flat-square">
   </a>
   <a href="https://discord.gg/DREuQWrRYQ">
@@ -152,8 +149,8 @@
 ## 在线一键设置
 您可以使用 Gitpod，一个在线 IDE（开源免费）来在线贡献或运行示例。
 
-[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/wangxiang4/dolphin-ecology-docs)
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/wangxiang4/dolphin-admin)
 
 ## 📄 执照
-[Dolphin Development Platform 是获得MIT许可](https://github.com/wangxiang4/dolphin-ecology-docs/blob/master/LICENSE) 的开源软件 。
+[Dolphin Development Platform 是获得MIT许可](https://github.com/wangxiang4/dolphin-admin/blob/master/LICENSE) 的开源软件 。
 

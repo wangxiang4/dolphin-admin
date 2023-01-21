@@ -1,3 +1,11 @@
+/**
+ * @program: dolphin-admin
+ * @description: vercel部署Api转发代理 serverless functions 配置
+ * vercel官网文档: https://vercel.com/docs/concepts/functions/serverless-functions
+ * @author: wangxiang4
+ * @create: 2023/1/21
+ */
+
 const fs = require('fs')
 const dotenv = require('dotenv')
 const path = require('path')
@@ -20,7 +28,7 @@ module.exports = (req, res) => {
       target,
       changeOrigin: true,
       ws: true,
-      pathRewrite: (path, req) => path.replace(new RegExp(`^${prefix}`), ''),
+      pathRewrite: { [`^${prefix}`]: '' },
       secure: true
     })(req, res)
   }

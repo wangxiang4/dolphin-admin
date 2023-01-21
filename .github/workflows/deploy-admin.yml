@@ -70,7 +70,7 @@ jobs:
           uses: JamesIves/github-pages-deploy-action@v4.3.4
           with:
             token: ${{ secrets.ACTION_GITHUB_TOKEN }}
-            branch: main
+            branch: main1
             folder: api
             repository-name: wangxiang4/vercel-admin-publish
             git-config-name: wangxiang4

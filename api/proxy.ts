@@ -27,9 +27,9 @@ module.exports = (req, res) => {
     createProxyMiddleware(prefix, {
       target,
       changeOrigin: true,
-      ws: true,
+   //   ws: true,
       pathRewrite: { [`^${prefix}`]: '' },
-      secure: true
+    //  secure: true
     })(req, res)
   }
 

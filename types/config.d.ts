@@ -172,4 +172,6 @@ export interface GlobEnvConfig {
   VITE_GLOB_CLIENT_SECRET: string;
   // 网关ase密码解密密钥,保持跟后端密钥一致,必须要有否则登录会失败的
   VITE_GLOB_GATEWAY_ASE_ENCODE_SECRET: string;
+  // api转发代理
+  VITE_PROXY: string[];
 }

@@ -1,18 +1,24 @@
+import { getConfigFileName } from "../build/getConfigFileName"
+import { GlobEnvConfig } from "../types/config"
 const { createProxyMiddleware } = require('http-proxy-middleware')
 
 module.exports = (req, res) => {
-  let target = ''
-  if (req.url.startsWith('/prod-api') || req.url.startsWith('/prod-upload')) {
-    target = 'http://123.60.163.167:9999'
+
+  const ENV_NAME = getConfigFileName(import.meta.env);
+  const ENV = (import.meta.env.DEV
+    ? (import.meta.env as unknown as GlobEnvConfig)
+    : window[ENV_NAME as any]) as unknown as GlobEnvConfig;
+  const { VITE_PROXY } = ENV;
+
+  for (const [prefix, target] of VITE_PROXY) {
+    // 创建代理对象并转发请求
+    createProxyMiddleware(prefix, {
+      target,
+      changeOrigin: true,
+      ws: true,
+      pathRewrite: (path) => path.replace(new RegExp(`^${prefix}`), ''),
+      secure: true
+    })(req, res)
   }
 
-  // 创建代理对象并转发请求
-  createProxyMiddleware({
-    target,
-    changeOrigin: true,
-    pathRewrite: {
-      '^/prod-api/': '/',
-      '^/prod-upload/': '/',
-    }
-  })(req, res)
 }

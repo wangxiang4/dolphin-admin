@@ -18,22 +18,24 @@ module.exports = (req, res) => {
   // 解析转换环境变量值
   let { VITE_PROXY } = envProductionConfig
   try {
-    VITE_PROXY = JSON.parse(VITE_PROXY);
+    VITE_PROXY = JSON.parse(VITE_PROXY)
   } catch (error) {
-    VITE_PROXY = [];
+    VITE_PROXY = []
   }
-  for (const [prefix, target] of VITE_PROXY[0]) {
-    // 创建代理对象并转发请求
-    createProxyMiddleware({
-      pathFilter: prefix,
-      target,
-      changeOrigin: true,
-      ws: true,
-      pathRewrite: {
-        [`^${prefix}`]: ''
-      },
-      secure: true,
-    })(req, res)
+
+  let target = VITE_PROXY[0]?.[1]
+  let pathRewrite = {}
+  for (const [prefix, target] of VITE_PROXY) {
+    pathRewrite[`^${prefix}`] = target.replaceAll(/^(https?:\/\/)[^/]+/g, '')
   }
+
+  // 创建代理对象并转发请求
+  createProxyMiddleware({
+    target,
+    changeOrigin: true,
+    ws: true,
+    pathRewrite: pathRewrite,
+    secure: true
+  })(req, res)
 
 }

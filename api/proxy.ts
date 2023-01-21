@@ -22,14 +22,17 @@ module.exports = (req, res) => {
   } catch (error) {
     VITE_PROXY = [];
   }
-  for (const [prefix, target] of VITE_PROXY) {
+  for (const [prefix, target] of VITE_PROXY[0]) {
     // 创建代理对象并转发请求
-    createProxyMiddleware(prefix, {
+    createProxyMiddleware({
+      pathFilter: prefix,
       target,
       changeOrigin: true,
-   //   ws: true,
-      pathRewrite: { [`^${prefix}`]: '' },
-    //  secure: true
+      ws: true,
+      pathRewrite: {
+        [`^${prefix}`]: ''
+      },
+      secure: true,
     })(req, res)
   }
 

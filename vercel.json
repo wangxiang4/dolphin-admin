@@ -8,5 +8,11 @@
       "source": "^/prod-upload(.*)",
       "destination": "/api/proxy"
     }
-  ]
+  ],
+  "functions": {
+    "api/*.ts": {
+      "memory": 3008,
+      "maxDuration": 30
+    }
+  }
 }

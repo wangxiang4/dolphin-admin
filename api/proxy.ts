@@ -1,5 +1,5 @@
-import { getConfigFileName } from "../build/getConfigFileName"
-import { GlobEnvConfig } from "../types/config"
+import { getConfigFileName } from '../build/getConfigFileName'
+import { GlobEnvConfig } from '../types/config'
 const { createProxyMiddleware } = require('http-proxy-middleware')
 
 module.exports = (req, res) => {

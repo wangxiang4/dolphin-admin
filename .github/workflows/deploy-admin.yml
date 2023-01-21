@@ -1,0 +1,67 @@
+name: Deploy Admin
+
+on:
+  schedule:
+    # GMT+8 00:00
+    - cron: '0 16 * * *'
+  workflow_dispatch:
+
+# https://docs.github.com/zh/enterprise-cloud@latest/actions/using-jobs/using-concurrency
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.number || github.sha }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    if: ${{ github.repository_owner == 'wangxiang4' }}
+
+    steps:
+      # https://github.com/actions/checkout
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      # https://github.com/actions/setup-node
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+
+      - name: Setup yarn
+        run: npm install -g yarn
+
+      - name: Get yarn store directory
+        id: yarn-cache
+        run: |
+          echo "yarn_cache_dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
+
+      # https://github.com/actions/cache
+      - uses: actions/cache@v3
+        name: Setup yarn cache
+        with:
+          # https://docs.github.com/zh/enterprise-server@3.7/actions/using-workflows/caching-dependencies-to-speed-up-workflows
+          path: ${{ steps.yarn-cache.outputs.yarn_cache_dir }}
+          key: ${{ runner.os }}-yarn-store-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-store-
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Build website
+        run: yarn build
+        env:
+          DOC_ENV: production
+          NODE_OPTIONS: --max-old-space-size=4096
+
+      # https://github.com/JamesIves/github-pages-deploy-action
+      - name: Deploy to Vercel
+        uses: JamesIves/github-pages-deploy-action@v4.3.4
+        with:
+          token: ${{ secrets.ACTION_GITHUB_TOKEN }}
+          branch: main
+          folder: docker/dist
+          repository-name: wangxiang4/vercel-admin-publish
+          git-config-name: wangxiang4
+          git-config-email: 1827945911@qq.com

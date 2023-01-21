@@ -2,6 +2,7 @@
   "name": "dolphin-admin",
   "version": "1.0.0",
   "license": "MIT",
+  "type" : "module",
   "author": {
     "name": "wangxiang4",
     "email": "1827945911@qq.com",

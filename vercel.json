@@ -1,11 +1,11 @@
 {
   "rewrites": [
     {
-      "source": "/prod-api/(.*)",
+      "source": "^/prod-api/(.*)",
       "destination": "/api/proxy"
     },
     {
-      "source": "/prod-upload(.*)",
+      "source": "^/prod-upload(.*)",
       "destination": "/api/proxy"
     }
   ],

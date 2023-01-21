@@ -1,3 +1,5 @@
+import {Request} from "http-proxy-middleware/dist/types";
+
 const fs = require('fs')
 const dotenv = require('dotenv')
 const path = require('path')
@@ -20,7 +22,7 @@ module.exports = (req, res) => {
       target,
       changeOrigin: true,
       ws: true,
-      pathRewrite: (path) => path.replace(new RegExp(`^${prefix}`), ''),
+      pathRewrite: (path: string, req: Request) => path.replace(new RegExp(`^${prefix}`), ''),
       secure: true
     })(req, res)
   }

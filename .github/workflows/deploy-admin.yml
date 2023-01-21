@@ -65,3 +65,13 @@ jobs:
           repository-name: wangxiang4/vercel-admin-publish
           git-config-name: wangxiang4
           git-config-email: 1827945911@qq.com
+
+      - name: Copy Vercel Proxy
+          uses: JamesIves/github-pages-deploy-action@v4.3.4
+          with:
+            token: ${{ secrets.ACTION_GITHUB_TOKEN }}
+            branch: main
+            folder: api
+            repository-name: wangxiang4/vercel-admin-publish
+            git-config-name: wangxiang4
+            git-config-email: 1827945911@qq.com

@@ -27,7 +27,7 @@
     "noImplicitThis" : false,
     "noImplicitAny": false,
     "skipLibCheck": true,
-    "types": ["vite/client", "@amap/amap-jsapi-loader/src/global"],
+    "types": ["node", "vite/client", "@amap/amap-jsapi-loader/src/global"],
     "typeRoots": ["./node_modules/@types/", "./types"],
     "removeComments": true,
     "paths": {

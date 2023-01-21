@@ -1,21 +1,20 @@
-const { loadEnv } = require('vite')
-const { wrapperEnv } = require ('../build/utils')
+const fs = require('fs')
+const dotenv = require('dotenv')
+const path = require('path')
 const { createProxyMiddleware } = require('http-proxy-middleware')
 
 module.exports = (req, res) => {
-  const root = process.cwd();
 
   // 在当前工作目录中根据 mode 加载env文件
-  const env = loadEnv('build', root);
-
+  const envProductionConfig = dotenv.parse(fs.readFileSync(path.resolve(process.cwd(), '.env.production')))
   // 解析转换环境变量值
-  const viteEnv = wrapperEnv(env);
-  const { VITE_PROXY } = viteEnv;
-
-  console.log(VITE_PROXY)
-  console.log(process.env)
-  for (const [prefix, target] of process.env.VITE_PROXY || []) {
-    console.log(1111)
+  let { VITE_PROXY } = envProductionConfig
+  try {
+    VITE_PROXY = JSON.parse(VITE_PROXY);
+  } catch (error) {
+    VITE_PROXY = [];
+  }
+  for (const [prefix, target] of VITE_PROXY) {
     // 创建代理对象并转发请求
     createProxyMiddleware(prefix, {
       target,

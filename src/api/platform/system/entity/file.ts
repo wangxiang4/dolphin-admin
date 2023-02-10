@@ -19,6 +19,9 @@ export interface File extends CommonEntity {
     original: string;
     type: string;
     fileSize: number;
+    availablePath: string;
+    duration: number;
+    mimeType: string;
     [key: string]: any;
 }
 

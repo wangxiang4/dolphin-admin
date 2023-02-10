@@ -6,9 +6,8 @@
  * @create: 2022/4/8
  */
 
+import type { File as OssFile } from '/@/api/platform/system/entity/file';
+
 /** oss上传返回结果对象 */
-export interface UploadResult {
-  bucketName: string;
-  fileName: string;
-  url: string;
+export interface UploadResult extends OssFile {
 }

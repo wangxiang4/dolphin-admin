@@ -126,14 +126,7 @@ export class VAxios {
     if (params.data) {
       Object.keys(params.data).forEach((key) => {
         const value = params.data![key];
-        if (Array.isArray(value)) {
-          value.forEach((item) => {
-            formData.append(`${key}[]`, item);
-          });
-          return;
-        }
-
-        formData.append(key, params.data![key]);
+        formData.append(key, JSON.stringify(value));
       });
     }
 

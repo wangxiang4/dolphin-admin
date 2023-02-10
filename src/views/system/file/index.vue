@@ -11,6 +11,11 @@
                      :showPreviewNumber="false"
                      :emptyHidePreview="true"
                      :api="commonUpload"
+                     :uploadParams="{
+                       ossFile: {
+                         duration: 150
+                       }
+                     }"
                      :accept="['image/*']"
                      multiple
                      @success="handleUploadSuccess"

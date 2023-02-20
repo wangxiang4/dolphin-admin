@@ -18,16 +18,10 @@ enum Api {
 
 export const listRegion = (params?: Partial<RegionParams>) => {
     let url = Api.lazyList;
+    // todo: 待优化
     if (params?.name || params?.code || params?.beginTime || params?.endTime) url = Api.list;
     return defHttp.get({ url: url, params });
 };
-
-export const listRegionCascade = (params?: Partial<RegionParams>) => defHttp.get({ url: Api.lazyList, params }).then(res => {
-    return res.map(item => {
-      const { children, ...result } = item;
-      return { ...result, isLeaf: !!!children };
-    });
-});
 
 export const addRegion = (params:Partial<Region>) => defHttp.post({ url: Api.add,data:params });
 

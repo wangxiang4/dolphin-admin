@@ -14,7 +14,6 @@ import { setupGlobDirectives } from '/@/directives';
 import { setupI18n } from '/@/locales/setupI18n';
 import { registerGlobComp } from '/@/components';
 
-// 引入表格功能相对比较齐全的组件vxeTable
 import XEUtils from 'xe-utils';
 // 按需导入 vxeTable
 import {

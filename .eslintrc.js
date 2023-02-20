@@ -2,9 +2,9 @@
  * @program: dolphin-admin
  * @description: ESLint规范检查配置
  * 目前跟框架适配情况,支持如下框架:
- * 原生js-eslint,官方配置文档: https://cn.eslint.org/docs/rules
- * vue,官方配置文档: https://eslint.vuejs.org/rules
- * typescript,官方配置文档: https://typescript-eslint.io/rules
+ * js检查官方配置文档: https://cn.eslint.org/docs/rules
+ * vue检查官方配置文档: https://eslint.vuejs.org/rules
+ * typescript检查官方配置文档: https://typescript-eslint.io/rules
  * @author: entfrm开发团队-王翔
  * @create: 2022/4/6
  */

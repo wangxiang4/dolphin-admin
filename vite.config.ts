@@ -53,12 +53,12 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
           find: 'vue-i18n',
           replacement: 'vue-i18n/dist/vue-i18n.cjs.js',
         },
-        // /@/xxxx => src/xxxx
+        // /@/xxx => src/xxx
         {
           find: /\/@\//,
           replacement: pathResolve('src') + '/',
         },
-        // /#/xxxx => types/xxxx
+        // /#/xxx => types/xxx
         {
           find: /\/#\//,
           replacement: pathResolve('types') + '/',

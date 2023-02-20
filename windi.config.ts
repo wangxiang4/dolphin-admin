@@ -5,10 +5,9 @@
  * tailwind-css官网: https://www.tailwindcss.cn
  * windi-css官网: https://cn.windicss.org/guide
  * @author: entfrm开发团队-王翔
- * @create: 2022/4/4
+ * @create: 2022/2/20
  */
 
-import colors from 'windicss/colors';
 import { defineConfig } from 'vite-plugin-windicss';
 import { primaryColor } from './build/config/themeConfig';
 

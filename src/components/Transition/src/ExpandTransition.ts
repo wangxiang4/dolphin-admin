@@ -34,9 +34,6 @@ export default function (expandedParentClass = '', x = false) {
 
       el.style.setProperty('transition', 'none', 'important');
       el.style.overflow = 'hidden';
-      // const offset = `${el[offsetProperty]}px`;
-
-      // el.style[sizeProperty] = '0';
 
       void el.offsetHeight; // force reflow
 
@@ -46,9 +43,7 @@ export default function (expandedParentClass = '', x = false) {
         el._parent.classList.add(expandedParentClass);
       }
 
-      requestAnimationFrame(() => {
-        // el.style[sizeProperty] = offset;
-      });
+      requestAnimationFrame(() => {});
     },
 
     afterEnter: resetStyles,

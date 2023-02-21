@@ -2,12 +2,6 @@ export interface MenuState {
   // 默认选中的列表
   defaultSelectedKeys: string[];
 
-  // 模式
-  // mode: MenuModeEnum;
-
-  // // 主题
-  // theme: ComputedRef<ThemeEnum> | ThemeEnum;
-
   // 缩进
   inlineIndent?: number;
 

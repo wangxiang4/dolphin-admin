@@ -222,10 +222,6 @@
           cachePlainOptions.value = columns;
           state.defaultCheckList = checkList;
         } else {
-          // const fixedColumns = columns.filter((item) =>
-          //   Reflect.has(item, 'fixed')
-          // ) as BasicColumn[];
-
           unref(plainOptions).forEach((item: BasicColumn) => {
             const findItem = columns.find((col: BasicColumn) => col.dataIndex === item.dataIndex);
             if (findItem) {
@@ -320,7 +316,7 @@
         });
       }
 
-      // Control whether the check box is displayed
+      // Control whether the checkbox is displayed
       function handleSelectCheckChange(e: ChangeEvent) {
         table.setProps({
           rowSelection: e.target.checked ? defaultRowSelection : undefined,

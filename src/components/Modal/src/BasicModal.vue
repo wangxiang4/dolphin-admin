@@ -172,7 +172,6 @@
         }
       );
 
-      // 取消事件
       async function handleCancel(e: Event) {
         e?.stopPropagation();
 

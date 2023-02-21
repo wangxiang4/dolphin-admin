@@ -1,4 +1,4 @@
-import type { BasicTableProps, TableActionType, FetchParams, BasicColumn } from '../types/table';
+import type { BasicTableProps, TableActionType, FetchParams } from '../types/table';
 import type { PaginationProps } from '../types/pagination';
 import type { DynamicProps } from '/#/utils';
 import type { FormActionType } from '/@/components/Form';

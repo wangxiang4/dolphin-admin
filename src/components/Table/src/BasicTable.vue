@@ -210,7 +210,6 @@
         const dataSource = unref(getDataSourceRef);
         let propsData: Recordable = {
           size: 'middle',
-          // ...(dataSource.length === 0 ? { getPopupContainer: () => document.body } : {}),
           ...attrs,
           customRow,
           expandIcon: slots.expandIcon ? null : expandIcon(),

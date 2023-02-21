@@ -1,6 +1,3 @@
-<!--
- * @Description:It is troublesome to implement radio button group in the form. So it is extracted independently as a separate component
--->
 <template>
   <RadioGroup v-model:value="state"
               v-bind="attrs"

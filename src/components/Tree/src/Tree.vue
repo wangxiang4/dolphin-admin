@@ -278,15 +278,6 @@
         }
       );
 
-      // watchEffect(() => {
-      //   console.log('======================');
-      //   console.log(props.value);
-      //   console.log('======================');
-      //   if (props.value) {
-      //     state.checkedKeys = props.value;
-      //   }
-      // });
-
       watchEffect(() => {
         state.checkStrictly = props.checkStrictly;
       });

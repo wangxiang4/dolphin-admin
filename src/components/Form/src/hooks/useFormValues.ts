@@ -6,7 +6,7 @@ import type { FormProps, FormSchema } from '../types/form';
 import { cloneDeep, set } from 'lodash-es';
 
 interface UseFormValuesContext {
-  defaultValueRef: Ref<any>;
+  defaultValueRef: Ref;
   getSchema: ComputedRef<FormSchema[]>;
   getProps: ComputedRef<FormProps>;
   formModel: Recordable;

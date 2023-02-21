@@ -24,8 +24,6 @@ export function useRowSelection(
       hideDefaultSelections: false,
       onChange: (selectedRowKeys: string[]) => {
         setSelectedRowKeys(selectedRowKeys);
-        // selectedRowKeysRef.value = selectedRowKeys;
-        // selectedRowRef.value = selectedRows;
       },
       ...omit(rowSelection, ['onChange']),
     };

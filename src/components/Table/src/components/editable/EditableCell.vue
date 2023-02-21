@@ -14,7 +14,7 @@
   import { propTypes } from '/@/utils/propTypes';
   import { isArray, isBoolean, isFunction, isNumber, isString } from '/@/utils/is';
   import { createPlaceholderMessage } from './helper';
-  import { omit, pick, set } from 'lodash-es';
+  import { pick, set } from 'lodash-es';
   import { treeToList } from '/@/utils/helper/treeHelper';
   import { Spin } from 'ant-design-vue';
 
@@ -270,7 +270,6 @@
         }
 
         set(record, dataKey, value);
-        //const record = await table.updateTableData(index, dataKey, value);
         needEmit && table.emit?.('edit-end', { record, index, key: dataKey, value });
         isEdit.value = false;
       }
@@ -473,7 +472,6 @@
     .ant-popover-inner-content {
       padding: 4px 8px;
       color: @error-color;
-      // border: 1px solid @error-color;
       border-radius: 2px;
     }
   }

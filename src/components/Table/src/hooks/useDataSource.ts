@@ -187,13 +187,6 @@ export function useDataSource(
       return ret;
     };
 
-    // const row = dataSourceRef.value.find(r => {
-    //   if (typeof rowKeyName === 'function') {
-    //     return (rowKeyName(r) as string) === rowKey
-    //   } else {
-    //     return Reflect.has(r, rowKeyName) && r[rowKeyName] === rowKey
-    //   }
-    // })
     return findRow(dataSourceRef.value);
   }
 

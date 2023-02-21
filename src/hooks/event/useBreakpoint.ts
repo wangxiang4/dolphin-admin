@@ -66,8 +66,7 @@ export function createBreakpointListen(fn?: (opt: CreateCallbackParams) => void)
     listener: () => {
       getWindowWidth();
       resizeFn();
-    },
-    // wait: 100,
+    }
   });
 
   getWindowWidth();

@@ -54,7 +54,7 @@ export function encryptByMd5(password: string) {
   return CryptoJS.MD5(password).toString();
 }
 
-/** 登录加密处理,处理后台需要解密字符串,不加密密码,我后端会解码AES会解析成乱码,你就永远无法登录系统 */
+/** 登录加密处理，处理后台需要解密字符串，不加密密码，后端会解码AES会导致乱码，始终无法成功登录系统 */
 export const encryptionLogin = (params: encryptionLoginModel): LoginParams => {
   let { data, param, key } = params;
   const result = JSON.parse(JSON.stringify(data));

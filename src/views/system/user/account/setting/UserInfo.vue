@@ -103,7 +103,7 @@
       }
 
       function handleAvatarChange({ src, data }) {
-        state.userInfo.avatar = data.url;
+        state.userInfo.avatar = data.availablePath;
       }
 
       return {

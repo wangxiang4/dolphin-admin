@@ -12,6 +12,17 @@
     <template #overlay>
       <Menu @click="handleMenuClick">
         <MenuItem
+            key="accountSettings"
+            :text="t('layout.header.dropdownItemAccountSettings')"
+            icon="ant-design:user-outlined"
+        />
+        <MenuDivider/>
+        <MenuItem
+            key="userCenter"
+            :text="t('layout.header.dropdownItemUserCenter')"
+            icon="ant-design:user-outlined"
+        />
+        <MenuItem
           v-if="getUseLockPage"
           key="lock"
           :text="t('layout.header.tooltipLock')"
@@ -37,14 +48,15 @@
   import { useModal } from '/@/components/Modal';
   import { propTypes } from '/@/utils/propTypes';
   import { createAsyncComponent } from '/@/utils/factory/createAsyncComponent';
+  import { useRouter } from 'vue-router';
 
-  type MenuEvent = 'logout' | 'doc' | 'lock';
-
+  type MenuEvent = 'logout' | 'doc' | 'lock' | 'accountSettings' | 'userCenter';
   export default defineComponent({
     name: 'UserDropdown',
     components: {
       Dropdown,
       Menu,
+      MenuDivider: Menu.Divider,
       MenuItem: createAsyncComponent(() => import('./DropMenuItem.vue')),
       LockAction: createAsyncComponent(() => import('../lock/LockModal.vue')),
     },
@@ -57,12 +69,10 @@
       const { getUseLockPage } = useHeaderSetting();
       const userStore = useUserStore();
 
-      const getUserInfo = computed(() => {
-        const { nickName = '', avatar, remarks } = userStore.getUserInfo || {};
-        return { nickName, avatar: avatar, remarks };
-      });
-
+      const { push } = useRouter();
       const [register, { openModal }] = useModal();
+      const getUserInfo = computed(() =>  userStore.getUserInfo || {});
+
 
       function handleLock() {
         openModal(true);
@@ -75,6 +85,12 @@
 
       function handleMenuClick(e: { key: MenuEvent }) {
         switch (e.key) {
+          case 'accountSettings':
+            push('/system/accountSetting');
+            break;
+          case 'userCenter':
+            push('/system/userCenter');
+            break;
           case 'logout':
             handleLoginOut();
             break;

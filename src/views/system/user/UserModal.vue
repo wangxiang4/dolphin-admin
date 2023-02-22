@@ -14,12 +14,12 @@
    * Copyright © 2020-2022 <a href="http://www.entfrm.com/">entfrm</a> All rights reserved.
    * author entfrm开发团队-王翔
    */
-  import {defineComponent, reactive, toRaw } from 'vue';
+  import { defineComponent, reactive, toRaw } from 'vue';
   import { BasicModal, useModalInner } from '/@/components/Modal';
   import { BasicForm, useForm } from '/@/components/Form/index';
   import { userFormSchema } from './user.data';
   import { listDept } from '/@/api/platform/system/controller/dept';
-  import { addUser, editUser, getUser } from '/@/api/platform/system/controller/user';
+  import { addUser, editUserRole, getUser } from '/@/api/platform/system/controller/user';
   import { listToTree } from '/@/utils/helper/treeHelper';
   import { ModalProps } from '/@/components/Modal';
   import { findListNameById } from '/@/utils';
@@ -101,7 +101,7 @@
               await addUser(formData);
               break;
             case 'edit':
-              await editUser(formData);
+              await editUserRole(formData);
               break;
           }
           // 处理提交完成之后逻辑

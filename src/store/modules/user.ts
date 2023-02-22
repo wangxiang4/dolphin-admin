@@ -18,6 +18,9 @@ import { router } from '/@/router';
 import { usePermissionStore } from '/@/store/modules/permission';
 import { RouteRecordRaw } from 'vue-router';
 import defaultAvatar from '/@/assets/images/defaultAvatar.svg';
+import { urlToBase64 } from '/@/utils/file/base64Conver';
+import { useGlobSetting } from '/@/hooks/setting';
+import { isUrl } from '/@/utils/is';
 
 interface UserState {
   userInfo: Nullable<User>;
@@ -134,7 +137,12 @@ export const useUserStore = defineStore({
     /** 获取用户信息 */
     async getUserInfoAction(): Promise<User> {
       const userInfo = await getUserInfo().catch(()=> this.resetState());
-      userInfo.avatar || (userInfo.avatar = defaultAvatar);
+      const { apiUrl } = useGlobSetting();
+      userInfo.avatar = userInfo.avatar
+        ? isUrl(userInfo.avatar)
+          ? userInfo.avatar
+          : apiUrl + userInfo.avatar
+        : await urlToBase64(defaultAvatar);
       userInfo.tenantIds = String(userInfo.tenantId).split(',');
       // 存储用户扩展信息,便于鉴权
       this.setUserInfo(userInfo);

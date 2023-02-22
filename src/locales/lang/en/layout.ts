@@ -3,6 +3,8 @@ export default {
   header: {
     // 用户下拉
     dropdownItemLoginOut: 'Login Out',
+    dropdownItemAccountSettings: 'Account Settings',
+    dropdownItemUserCenter: 'User Center',
 
     tooltipErrorLog: 'Error log',
     tooltipLock: 'Lock screen',

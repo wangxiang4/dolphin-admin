@@ -3,6 +3,8 @@ export default {
   header: {
     // 用户下拉
     dropdownItemLoginOut: '退出系统',
+    dropdownItemAccountSettings: '账户设置',
+    dropdownItemUserCenter: '用户中心',
 
     // 提示信息
     tooltipErrorLog: '错误日志',

@@ -14,6 +14,7 @@ enum Api {
   add = '/system_proxy/system/user/save',
   get = '/system_proxy/system/user',
   edit = '/system_proxy/system/user/update',
+  editUser = '/system_proxy/system/user/updateUser',
   del = '/system_proxy/system/user/remove',
   updatePwd = '/system_proxy/system/user/updatePwd',
   resetPwd='/system_proxy/system/user/resetPwd',
@@ -29,8 +30,11 @@ export const listUser = (params?: Partial<UserParams>) => defHttp.get<UserResult
 /** 新增用户 */
 export const addUser = (params: Partial<User>) => defHttp.post({ url: Api.add, data: params });
 
+/** 修改用户关联用户角色表 */
+export const editUserRole = (params: Partial<User>) => defHttp.put({ url: Api.edit, data: params });
+
 /** 修改用户 */
-export const editUser = (params: Partial<User>) => defHttp.put({ url: Api.edit, data: params });
+export const editUser = (params: Partial<User>) => defHttp.put({ url: Api.editUser, data: params });
 
 /** 查询用户详细 */
 export const getUser = (id: string) => defHttp.get<ResultVo>({ url: `${Api.get}/${id}` });

@@ -14,7 +14,7 @@
         <MenuItem
             key="accountSettings"
             :text="t('layout.header.dropdownItemAccountSettings')"
-            icon="ant-design:user-outlined"
+            icon="ant-design:setting-twotone"
         />
         <MenuDivider/>
         <MenuItem

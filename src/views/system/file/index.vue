@@ -13,7 +13,7 @@
                      :api="commonUpload"
                      :accept="['image/*']"
                      multiple
-                     @success="handleUploadSuccess"
+                     @change="handleUploadSave"
         />
         <a-button v-auth="['file_del']"
                   type="primary"
@@ -107,10 +107,9 @@
     state.multiple = !rowSelection.length;
   }
 
-  /** 处理上传成功回调 */
-  function handleUploadSuccess(closeUploadModal: Fn) {
+  /** 处理上传成功保存回调 */
+  function handleUploadSave(fileList: string[]) {
     state.fileList = [];
-    closeUploadModal();
     handleRefreshTable();
   }
 

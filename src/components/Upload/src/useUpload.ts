@@ -2,11 +2,11 @@ import { Ref, unref, computed } from 'vue';
 import { useI18n } from '/@/hooks/web/useI18n';
 const { t } = useI18n();
 export function useUploadType({
-                                acceptRef,
-                                helpTextRef,
-                                maxNumberRef,
-                                maxSizeRef,
-                              }: {
+  acceptRef,
+  helpTextRef,
+  maxNumberRef,
+  maxSizeRef,
+}: {
   acceptRef: Ref<string[]>;
   helpTextRef: Ref<string>;
   maxNumberRef: Ref<number>;

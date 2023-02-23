@@ -1,8 +1,10 @@
 <template>
   <div>
     <Space>
-      <a-button type="primary" preIcon="carbon:cloud-upload" @click="openUploadModal">
-        {{ t('component.upload.upload') }}
+      <a-button type="primary"
+                preIcon="carbon:cloud-upload"
+                @click="openUploadModal"
+      >{{ t('component.upload.upload') }}
       </a-button>
       <Tooltip v-if="showPreview" placement="bottom">
         <template #title>
@@ -19,20 +21,16 @@
         </a-button>
       </Tooltip>
     </Space>
-    <UploadModal
-      v-bind="bindValue"
-      :previewFileList="fileList"
-      @register="registerUploadModal"
-      @change="handleChange"
-      @delete="handleDelete"
-      @success="handleSuccess"
+    <UploadModal v-bind="bindValue"
+                 :previewFileList="fileList"
+                 @register="registerUploadModal"
+                 @change="handleChange"
+                 @delete="handleDelete"
     />
-
-    <UploadPreviewModal
-      :value="fileList"
-      @register="registerPreviewModal"
-      @list-change="handlePreviewChange"
-      @delete="handlePreviewDelete"
+    <UploadPreviewModal :value="fileList"
+                        @register="registerPreviewModal"
+                        @list-change="handlePreviewChange"
+                        @delete="handlePreviewDelete"
     />
   </div>
 </template>
@@ -57,7 +55,7 @@
     setup(props, { emit, attrs }) {
       const { t } = useI18n();
       // 上传modal
-      const [registerUploadModal, { openModal: openUploadModal, closeModal: closeUploadModal }] = useModal();
+      const [registerUploadModal, { openModal: openUploadModal }] = useModal();
 
       // 预览modal
       const [registerPreviewModal, { openModal: openPreviewModal }] = useModal();
@@ -97,10 +95,6 @@
         emit('change', fileList.value);
       }
 
-      function handleSuccess() {
-        emit('success', closeUploadModal);
-      }
-
       function handleDelete(record: Recordable) {
         emit('delete', record);
       }
@@ -112,7 +106,6 @@
       return {
         registerUploadModal,
         openUploadModal,
-        handleSuccess,
         handleChange,
         handlePreviewChange,
         registerPreviewModal,

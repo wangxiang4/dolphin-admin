@@ -48,7 +48,7 @@
   </BasicModal>
 </template>
 <script lang="ts">
-  import { defineComponent, reactive, ref, toRefs, unref, computed, PropType } from 'vue';
+  import { defineComponent, ref, toRefs, unref, computed, PropType } from 'vue';
   import { Upload, Alert } from 'ant-design-vue';
   import { BasicModal, useModalInner } from '/@/components/Modal';
   import { useUploadType } from './useUpload';
@@ -62,7 +62,7 @@
   import { warn } from '/@/utils/log';
   import FileList from './FileList.vue';
   import { useI18n } from '/@/hooks/web/useI18n';
-  import { useTimeoutFn } from '/@/hooks/core/useTimeout';
+  import { BasicColumn } from '/@/components/Table';
 
   export default defineComponent({
     components: { BasicModal, Upload, Alert, FileList },
@@ -73,20 +73,14 @@
         default: () => [],
       },
     },
-    emits: ['change', 'register', 'delete', 'success'],
+    emits: ['change', 'register', 'delete'],
     setup(props, { emit }) {
-      const state = reactive<{ fileList: FileItem[] }>({
-        fileList: [],
-      });
-
-      // 是否正在上传
+      const { t } = useI18n();
       const isUploadingRef = ref(false);
       const fileListRef = ref<FileItem[]>([]);
       const { accept, helpText, maxNumber, maxSize } = toRefs(props);
-
-      const { t } = useI18n();
       const [register, { closeModal }] = useModalInner();
-
+      const { createMessage } = useMessage();
       const { getStringAccept, getHelpText } = useUploadType({
         acceptRef: accept,
         helpTextRef: helpText,
@@ -94,33 +88,21 @@
         maxSizeRef: maxSize,
       });
 
-      const { createMessage } = useMessage();
-
-      const getIsSelectFile = computed(() => {
-        return (
-            fileListRef.value.length > 0 &&
-            !fileListRef.value.every((item) => item.status === UploadResultStatus.SUCCESS)
-        );
-      });
+      const getIsSelectFile = computed(() =>
+          (fileListRef.value.length > 0 && !fileListRef.value.every((item) => item.status === UploadResultStatus.SUCCESS)));
 
       const getOkButtonProps = computed(() => {
-        const someSuccess = fileListRef.value.some(
-            (item) => item.status === UploadResultStatus.SUCCESS,
-        );
-        return {
-          disabled: isUploadingRef.value || fileListRef.value.length === 0 || !someSuccess,
-        };
+        const someSuccess = fileListRef.value.some(item => item.status === UploadResultStatus.SUCCESS);
+        return { disabled: isUploadingRef.value || fileListRef.value.length === 0 || !someSuccess };
       });
 
       const getUploadBtnText = computed(() => {
-        const someError = fileListRef.value.some(
-            (item) => item.status === UploadResultStatus.ERROR,
-        );
+        const someError = fileListRef.value.some(item => item.status === UploadResultStatus.ERROR);
         return isUploadingRef.value
-          ? t('component.upload.uploading')
-          : someError
-            ? t('component.upload.reUploadFailed')
-            : t('component.upload.startUpload');
+            ? t('component.upload.uploading')
+            : someError
+                ? t('component.upload.reUploadFailed')
+                : t('component.upload.startUpload');
       });
 
       // 上传前校验
@@ -147,10 +129,7 @@
           getBase64WithFile(file).then(({ result: thumbUrl }) => {
             fileListRef.value = [
               ...unref(fileListRef),
-              {
-                thumbUrl,
-                ...commonItem,
-              },
+              { thumbUrl, ...commonItem }
             ];
           });
         } else {
@@ -168,24 +147,20 @@
 
       async function uploadApiByItem(item: FileItem) {
         const { api } = props;
-        if (!api || !isFunction(api)) {
+        if (!api || !isFunction(api))
           return warn('upload api must exist and be a function');
-        }
         try {
           item.status = UploadResultStatus.UPLOADING;
-          const { data } = await props.api?.(
-            {
-              data: {
-                ...(props.uploadParams || {}),
+          const { data } = await props.api?.({
+                data: {...(props.uploadParams || {})},
+                file: item.file,
+                name: props.name,
+                filename: props.filename,
               },
-              file: item.file,
-              name: props.name,
-              filename: props.filename,
-            },
-            function onUploadProgress(progressEvent: ProgressEvent) {
-              const complete = ((progressEvent.loaded / progressEvent.total) * 100) | 0;
-              item.percent = complete;
-            },
+              function onUploadProgress(progressEvent: ProgressEvent) {
+                const complete = ((progressEvent.loaded / progressEvent.total) * 100) | 0;
+                item.percent = complete;
+              },
           );
           item.status = UploadResultStatus.SUCCESS;
           item.responseData = data;
@@ -194,7 +169,6 @@
             error: null,
           };
         } catch (e) {
-          console.log(e);
           item.status = UploadResultStatus.ERROR;
           return {
             success: false,
@@ -212,20 +186,13 @@
         try {
           isUploadingRef.value = true;
           // 只上传不是成功状态的
-          const uploadFileList =
-              fileListRef.value.filter((item) => item.status !== UploadResultStatus.SUCCESS) || [];
-          const data = await Promise.all(
-              uploadFileList.map((item) => {
-                return uploadApiByItem(item);
-              }),
-          );
+          const uploadFileList = fileListRef.value.filter((item) => item.status !== UploadResultStatus.SUCCESS) || [];
+          const result = await Promise.all(uploadFileList.map((item) => uploadApiByItem(item)));
           isUploadingRef.value = false;
-          // 生产环境:抛出错误
-          const errorList = data.filter((item: any) => !item.success);
+          const errorList = result.filter((item: any) => !item.success);
           if (errorList.length > 0) throw errorList;
-          useTimeoutFn(() => {
-            emit('success');
-          }, 300);
+          // 当关闭上传保存按钮，默认选择开始上传按钮充当保存按钮
+          !props.showUploadSaveBtn && handleOk();
         } catch (e) {
           isUploadingRef.value = false;
           throw e;
@@ -271,8 +238,8 @@
       }
 
       return {
-        columns: createTableColumns() as any[],
-        actionColumn: createActionColumn(handleRemove) as any,
+        columns: createTableColumns() as BasicColumn[],
+        actionColumn: createActionColumn(handleRemove) as BasicColumn,
         register,
         closeModal,
         getHelpText,
@@ -280,7 +247,6 @@
         getOkButtonProps,
         beforeUpload,
         fileListRef,
-        state,
         isUploadingRef,
         handleStartUpload,
         handleOk,

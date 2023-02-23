@@ -41,9 +41,9 @@
 
   import { defineComponent } from 'vue';
   import { Dropdown, Menu, Popconfirm } from 'ant-design-vue';
-  import { Icon } from '/@/components/Icon';
   import { omit } from 'lodash-es';
   import { isFunction } from '/@/utils/is';
+  import { createAsyncComponent } from '/@/utils/factory/createAsyncComponent';
 
   export default defineComponent({
     name: 'BasicDropdown',
@@ -52,7 +52,7 @@
       Menu,
       MenuItem: Menu.Item,
       MenuDivider: Menu.Divider,
-      Icon,
+      Icon: createAsyncComponent(() => import('/@/components/Icon')),
       Popconfirm,
     },
     props: {

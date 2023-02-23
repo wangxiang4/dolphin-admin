@@ -2,7 +2,7 @@
   <AMapDesigner ref="aMapDesigner"
                 :toolbar="state.toolbar"
                 :siderWidth="300"
-                :sidebarControl="false"
+                :sidebarControl="true"
                 @success="handleSubmit"
   />
 </template>

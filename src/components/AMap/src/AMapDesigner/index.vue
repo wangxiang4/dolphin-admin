@@ -382,7 +382,8 @@
   }
 
   .operatePanel {
-    border: 1px solid @borderColor;
+    background: @component-background;
+    border: 1px solid @component-background;
     width: @siderWidth;
     height: 100%;
     background-color: white;
@@ -405,7 +406,7 @@
       font-family: Times;
       text-align: center;
       border-radius: 4px 0 0 4px;
-      color: #fff;
+      color: @component-background;
       visibility: visible;
       left: 0;
       box-shadow: 0 2px 10px rgba(0,0,0,.2);
@@ -428,7 +429,8 @@
   }
 
   .headToolbar {
-    border: 1px solid @borderColor;
+    background: @component-background;
+    border: 1px solid @component-background;
     right: @siderWidth;
   }
 }

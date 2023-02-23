@@ -20,7 +20,7 @@
   import { BasicForm, useForm } from '/@/components/Form';
   import { regionFormSchema } from './region.data';
   import { BasicModal, ModalProps, useModalInner } from '/@/components/Modal';
-  import { listRegion, addRegion, editRegion, getRegion } from '/@/api/platform/system/controller/region';
+  import { lazyListRegion, addRegion, editRegion, getRegion } from '/@/api/platform/system/controller/region';
 
   /** 通用变量统一声明区域 */
   const state = reactive({
@@ -52,11 +52,11 @@
         },
         loadData: (treeNode: any) => {
           const { id } = treeNode.dataRef;
-          return listRegion({ parentId: id }).then(res => {
+          return lazyListRegion({ parentId: id }).then(res => {
             treeNode.dataRef.children = (res || [])?.map(item => {
-              if(item.hasOwnProperty('children')) {
-                item.isLeaf = false;
-              } else item.isLeaf = true;
+              item.hasOwnProperty('children')
+                ? (item.isLeaf = false)
+                : (item.isLeaf = true);
               return item;
             });
           });

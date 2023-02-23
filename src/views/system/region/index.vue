@@ -46,15 +46,15 @@
   import { useModal } from '/@/components/Modal';
   import RegionModal from './RegionModal.vue';
   import { columns, searchFormSchema } from './region.data';
-  import { delRegion, listRegion } from '/@/api/platform/system/controller/region';
+  import { delRegion, lazyListRegion } from '/@/api/platform/system/controller/region';
   import { useMessage } from '/@/hooks/web/useMessage';
 
   /** 通用变量统一声明区域 */
   const { createMessage } = useMessage();
   const [registerModal, { openModal }] = useModal();
-  const [registerTable, { reload, getDataSource, setLoading, collapseAll }] = useTable({
+  const [registerTable, { reload, setLoading, collapseAll }] = useTable({
     title: '区域列表',
-    api: listRegion,
+    api: lazyListRegion,
     rowKey: 'id',
     columns,
     formConfig: {
@@ -86,7 +86,7 @@
   function onExpandClick(expanded, info) {
     if (expanded) {
       setLoading(true);
-      listRegion({ parentId: info.id }).then(res => {
+      lazyListRegion({ parentId: info.id }).then(res => {
         info.children = res;
         setLoading(false);
       }).catch(() => setLoading(false));

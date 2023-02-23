@@ -16,16 +16,13 @@ enum Api {
     del = '/system_proxy/system/region/remove'
 }
 
-export const listRegion = (params?: Partial<RegionParams>) => {
-    let url = Api.lazyList;
-    // todo: 待优化
-    if (params?.name || params?.code || params?.beginTime || params?.endTime) url = Api.list;
-    return defHttp.get({ url: url, params });
-};
+export const listRegion = (params?: Partial<RegionParams>) => defHttp.get({ url: Api.list, params });
 
-export const addRegion = (params:Partial<Region>) => defHttp.post({ url: Api.add,data:params });
+export const lazyListRegion = (params?: Partial<RegionParams>) => defHttp.get({ url: Api.lazyList, params });
 
-export const editRegion = (params:Partial<Region>) => defHttp.put({ url: Api.edit,data:params });
+export const addRegion = (params:Partial<Region>) => defHttp.post({ url: Api.add, data: params });
+
+export const editRegion = (params:Partial<Region>) => defHttp.put({ url: Api.edit, data: params });
 
 export const getRegion = (id: string) => defHttp.get<ResultVo<Region>>({ url: `${Api.get}/${id}` });
 

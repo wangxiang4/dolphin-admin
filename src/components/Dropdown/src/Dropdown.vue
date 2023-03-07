@@ -1,10 +1,10 @@
 <template>
-  <Dropdown :trigger="trigger" v-bind="$attrs">
+  <Dropdown :class="[prefixCls]" :trigger="trigger" v-bind="$attrs">
     <span>
       <slot/>
     </span>
     <template #overlay>
-      <Menu :selectedKeys="selectedKeys">
+      <Menu :class="`${prefixCls}--menu`" :selectedKeys="selectedKeys">
         <template v-for="item in dropMenuList" :key="`${item.event}`">
           <MenuItem
             v-bind="getAttr(item.event)"
@@ -38,12 +38,12 @@
 <script lang="ts">
   import { computed, PropType } from 'vue';
   import type { DropMenu } from './typing';
-
   import { defineComponent } from 'vue';
   import { Dropdown, Menu, Popconfirm } from 'ant-design-vue';
   import { omit } from 'lodash-es';
   import { isFunction } from '/@/utils/is';
   import { createAsyncComponent } from '/@/utils/factory/createAsyncComponent';
+  import { useDesign } from '/@/hooks/web/useDesign';
 
   export default defineComponent({
     name: 'BasicDropdown',
@@ -79,6 +79,7 @@
     },
     emits: ['menuEvent'],
     setup(props, { emit }) {
+      const { prefixCls } = useDesign('basic-dropdown');
       function handleClickMenu(item: DropMenu) {
         const { event } = item;
         const menu = props.dropMenuList.find((item) => `${item.event}` === `${event}`);
@@ -98,6 +99,7 @@
       });
 
       return {
+        prefixCls,
         handleClickMenu,
         getPopConfirmAttrs,
         getAttr: (key: string | number) => ({ key }),
@@ -105,3 +107,14 @@
     },
   });
 </script>
+
+<style lang="less">
+@prefix-cls: ~'@{namespace}-basic-dropdown';
+.@{prefix-cls} {
+  &--menu{
+    .ant-dropdown-menu-item {
+      color: @primary-color;
+    }
+  }
+}
+</style>

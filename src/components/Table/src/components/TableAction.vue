@@ -25,14 +25,14 @@
     >
       <slot name="more"/>
       <a-button v-if="!$slots.more" type="link" size="small">
-        <MoreOutlined class="icon-more"/>
+        更多<Icon icon="mdi-light:chevron-down"/>
       </a-button>
     </Dropdown>
   </div>
 </template>
+
 <script lang="ts">
   import { defineComponent, PropType, computed, toRaw, unref } from 'vue';
-  import { MoreOutlined } from '@ant-design/icons-vue';
   import { Divider, Tooltip, TooltipProps } from 'ant-design-vue';
   import Icon from '/@/components/Icon/index';
   import { ActionItem, TableActionType } from '/@/components/Table';
@@ -47,7 +47,7 @@
 
   export default defineComponent({
     name: 'TableAction',
-    components: { Icon, PopConfirmButton, Divider, Dropdown, MoreOutlined, Tooltip },
+    components: { Icon, PopConfirmButton, Divider, Dropdown, Tooltip },
     props: {
       actions: {
         type: Array as PropType<ActionItem[]>,
@@ -148,3 +148,10 @@
     },
   });
 </script>
+
+<style lang="less">
+@prefix-cls: ~'@{namespace}-basic-table-action';
+.@{prefix-cls} {
+  height: 22px;
+}
+</style>

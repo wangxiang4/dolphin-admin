@@ -10,17 +10,17 @@
     </span>
 
     <template #overlay>
-      <Menu @click="handleMenuClick">
+      <Menu :class="`${prefixCls}--menu`" @click="handleMenuClick">
         <MenuItem
-            key="accountSettings"
-            :text="t('layout.header.dropdownItemAccountSettings')"
-            icon="ant-design:setting-twotone"
+          key="accountSettings"
+          :text="t('layout.header.dropdownItemAccountSettings')"
+          icon="ant-design:setting-twotone"
         />
         <MenuDivider/>
         <MenuItem
-            key="userCenter"
-            :text="t('layout.header.dropdownItemUserCenter')"
-            icon="ant-design:user-outlined"
+          key="userCenter"
+          :text="t('layout.header.dropdownItemUserCenter')"
+          icon="ant-design:user-outlined"
         />
         <MenuItem
           v-if="getUseLockPage"
@@ -122,6 +122,12 @@
     font-size: 12px;
     cursor: pointer;
     align-items: center;
+
+    &--menu{
+      .ant-dropdown-menu-item {
+        color: @primary-color;
+      }
+    }
 
     img {
       width: 24px;

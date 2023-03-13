@@ -18,9 +18,6 @@ import { createPermissionGuard } from './permissionGuard';
 import { createStateGuard } from './stateGuard';
 import nProgress from 'nprogress';
 import projectSetting from '/@/settings/projectSetting';
-import type { User } from '/@/api/platform/core/entity/user';
-import { synchronousAuthenticationUser } from '/@/api/platform/system/controller/user';
-import { isEmpty } from '/@/utils/is';
 
 /** 不要改变创建的顺序 */
 export function setupRouterGuard(router: Router) {
@@ -29,7 +26,6 @@ export function setupRouterGuard(router: Router) {
   createHttpGuard(router);
   createScrollGuard(router);
   createMessageGuard(router);
-  createSynchronousAuthenticationUserGuard(router);
   createProgressGuard(router);
   createPermissionGuard(router);
   createStateGuard(router);
@@ -115,37 +111,6 @@ export function createMessageGuard(router: Router) {
     return true;
   });
 }
-
-/** 处理刷新实时同步身份验证用户 */
-export function createSynchronousAuthenticationUserGuard(router: Router) {
-  const userStore = useUserStoreWithOut();
-  router.beforeEach(async (to) => {
-    const token = userStore.getAccessToken;
-    const userInfo = userStore.getUserInfo;
-    if (token && !isEmpty(userInfo)) {
-      try {
-        const dolphinUser = await synchronousAuthenticationUser();
-        // 同步当前身份验证用户到用户信息中
-        Object.assign(userInfo, {
-          id: dolphinUser.id,
-          phone: dolphinUser.phone,
-          userName: dolphinUser.username,
-          tenantId: dolphinUser.tenantId,
-          tenantIds: String(dolphinUser.tenantId).split(','),
-          enabled: dolphinUser.enabled,
-          accountNonLocked: dolphinUser.accountNonLocked,
-          accountNonExpired: dolphinUser.accountNonExpired,
-          credentialsNonExpired: dolphinUser.credentialsNonExpired
-        } as Partial<User>);
-        userStore.setUserInfo(userInfo);
-      } catch {
-        console.log('同步授权用户信息失败,请检查token是否过期!');
-      }
-    }
-    return true;
-  });
-}
-
 
 /** 处理发送请求时显示请求进度条 */
 export function createProgressGuard(router: Router) {
